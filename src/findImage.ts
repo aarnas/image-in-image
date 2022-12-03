@@ -65,13 +65,20 @@ export const findImageInImage = async (
       } else {
         return { error: 400, message: "Inner bigger than outer" };
       }
-      if (finds[0]) {
+      if (finds.length > 0) {
         const imageWCenter = meta_i.width / 2;
         const imageHCenter = meta_i.height / 2;
-        return {
-          x: (finds[0].x + imageWCenter) / aspectRatio,
-          y: (finds[0].y + imageHCenter) / aspectRatio,
-        };
+        return max == 1
+          ? {
+              x: (finds[0].x + imageWCenter) / aspectRatio,
+              y: (finds[0].y + imageHCenter) / aspectRatio,
+            }
+          : finds.map((find) => {
+              return {
+                x: (find.x + imageWCenter) / aspectRatio,
+                y: (find.y + imageHCenter) / aspectRatio,
+              };
+            });
       } else {
         return { error: 404, message: "Image not found" };
       }

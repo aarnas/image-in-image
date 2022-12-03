@@ -1,16 +1,37 @@
 import { findImageInImage } from "./findImage";
 
 export const findImage = async (
-  innerImage: string,
   outterImage: string,
+  innerImage: string,
   outerImageType: string,
-  innerImageType: string
+  innerImageType: string,
+  aspectRatio?: number
 ) => {
   const foundImage = await findImageInImage(
     outterImage,
     innerImage,
     outerImageType,
-    innerImageType
+    innerImageType,
+    aspectRatio
+  );
+  return foundImage;
+};
+
+export const findImages = async (
+  outterImage: string,
+  innerImage: string,
+  outerImageType: string,
+  innerImageType: string,
+  findMaxAmount?: number,
+  aspectRatio?: number
+) => {
+  const foundImage = await findImageInImage(
+    outterImage,
+    innerImage,
+    outerImageType,
+    innerImageType,
+    aspectRatio || 1,
+    findMaxAmount || 99
   );
   return foundImage;
 };
