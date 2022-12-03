@@ -10,8 +10,6 @@ npm i image-in-image
 
 ## Functions
 
----
-
 ### `findImage(innerImagePath, outerImagePath, innerImageMimeType, outerImageMimeType)`
 
 e.g.
