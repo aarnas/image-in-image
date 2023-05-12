@@ -2,18 +2,28 @@ import sharp from "sharp";
 import Jimp from "jimp";
 
 export const findImageInImage = async (
-  outerImage: string,
-  innerImage: string,
+  outerImage: string | Buffer,
+  innerImage: string | Buffer,
   outerImageType: string,
   innerImageType: string,
   aspectRatio = 1,
   max = 1
 ) => {
   try {
-    const outerImg = await Jimp.read(outerImage);
-    const innerImg = await Jimp.read(innerImage);
-    const buffer = await outerImg.getBufferAsync(outerImageType);
-    const innerBuffer = await innerImg.getBufferAsync(innerImageType);
+    var buffer;
+    if (typeof outerImage == "string") {
+        const outerImg = await Jimp.read(outerImage);
+        buffer = await outerImg.getBufferAsync(outerImageType);
+    } else {
+        buffer = outerImage;
+    }
+    var innerBuffer;
+    if (typeof innerImage == "string") {
+        const innerImg = await Jimp.read(innerImage);
+        innerBuffer = await innerImg.getBufferAsync(innerImageType);
+    } else {
+        innerBuffer = innerImage;
+    }
 
     const file_o = sharp(buffer);
     const file_i = sharp(innerBuffer);
