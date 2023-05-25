@@ -94,3 +94,23 @@ if findMaxAmount set to >2, returns always in array:
 ```
 
 ---
+
+### use Buffers instead images
+
+```js
+import { findImages } from "image-in-image";
+
+const main = async () => {
+  const test2 = await findImages(
+    BufferOfDots,
+    BufferOfDot,
+    "image/png",
+    "image/png",
+    2, // optional amount of max found, default 99
+    1 // optional aspect ratio, default 1
+  );
+  console.log(test2);
+};
+
+main();
+```
