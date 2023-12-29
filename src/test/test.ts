@@ -7,7 +7,7 @@ const main = async () => {
     "image/png",
     "image/png"
   );
-  console.log(test1);
+  console.log("Test basic ", test1);
   const test2 = await findImages(
     "build/test/dots.png",
     "build/test/dot.png",
@@ -16,7 +16,17 @@ const main = async () => {
     2, // optional amount of max found
     1 // optional aspect ratio
   );
-  console.log(test2);
+  console.log("Test multiple ", test2);
+  const test3 = await findImages(
+    "build/test/dots_misc.png",
+    "build/test/dot.png",
+    "image/png",
+    "image/png",
+    1, // optional amount of max found
+    1, // optional aspect ratio
+    0.88 // optional similarity threshold
+  );
+  console.log("Test Similarity ", test3);
 };
 
 main();
