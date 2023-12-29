@@ -114,3 +114,26 @@ const main = async () => {
 
 main();
 ```
+
+---
+
+### use Similarity option for not exact match
+
+```js
+import { findImages } from "image-in-image";
+
+const main = async () => {
+  const test3 = await findImages(
+    BufferOfDotsNotExact,
+    BufferOfDot,
+    "image/png",
+    "image/png",
+    1, // optional amount of max found, default 99
+    1, // optional aspect ratio, default 1
+    0.88 // optional similarity, default 1
+  );
+  console.log(test3);
+};
+
+main();
+```

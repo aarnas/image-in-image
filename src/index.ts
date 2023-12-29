@@ -23,15 +23,17 @@ export const findImages = async (
   outerImageType: string,
   innerImageType: string,
   findMaxAmount?: number,
-  aspectRatio?: number
+  aspectRatio?: number,
+  similarityThreshold?: number
 ) => {
   const foundImage = await findImageInImage(
     outterImage,
     innerImage,
     outerImageType,
     innerImageType,
-    aspectRatio || 1,
-    findMaxAmount || 99
+    aspectRatio ?? 1,
+    findMaxAmount ?? 99,
+    similarityThreshold ?? 1
   );
   return foundImage;
 };

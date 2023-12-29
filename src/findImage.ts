@@ -7,22 +7,23 @@ export const findImageInImage = async (
   outerImageType: string,
   innerImageType: string,
   aspectRatio = 1,
-  max = 1
+  max = 1,
+  similarityThreshold = 1
 ) => {
   try {
     var buffer;
     if (typeof outerImage == "string") {
-        const outerImg = await Jimp.read(outerImage);
-        buffer = await outerImg.getBufferAsync(outerImageType);
+      const outerImg = await Jimp.read(outerImage);
+      buffer = await outerImg.getBufferAsync(outerImageType);
     } else {
-        buffer = outerImage;
+      buffer = outerImage;
     }
     var innerBuffer;
     if (typeof innerImage == "string") {
-        const innerImg = await Jimp.read(innerImage);
-        innerBuffer = await innerImg.getBufferAsync(innerImageType);
+      const innerImg = await Jimp.read(innerImage);
+      innerBuffer = await innerImg.getBufferAsync(innerImageType);
     } else {
-        innerBuffer = innerImage;
+      innerBuffer = innerImage;
     }
 
     const file_o = sharp(buffer);
@@ -64,7 +65,9 @@ export const findImageInImage = async (
               const slice_i = buff_i.slice(pos_i, pos_i + size_i);
               const slice_o = buff_o.slice(pos_o, pos_o + size_i);
 
-              matches = slice_o.equals(slice_i); // does next row also match?
+              const similarity = calculateSimilarity(slice_o, slice_i);
+
+              matches = similarity >= similarityThreshold;
             }
 
             if (matches) {
@@ -99,4 +102,21 @@ export const findImageInImage = async (
       message: "Something went wrong, might be that images path not right",
     };
   }
+};
+
+const calculateSimilarity = (slice1: Buffer, slice2: Buffer): number => {
+  if (slice1.length !== slice2.length) {
+    throw new Error("Image slices must have the same length");
+  }
+
+  let sumSquaredDiff = 0;
+  for (let i = 0; i < slice1.length; i++) {
+    const diff = slice1[i] - slice2[i];
+    sumSquaredDiff += diff * diff;
+  }
+
+  const mse = sumSquaredDiff / slice1.length;
+  const similarity = 1 - mse / 255 ** 2; // Normalize the similarity to a value between 0 and 1
+
+  return similarity;
 };
