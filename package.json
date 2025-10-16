@@ -1,6 +1,6 @@
 {
   "name": "image-in-image",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Package for finding an image as part of another image. In other words, picture-in-picture search.",
   "main": "build/index.js",
   "types": "build/index.d.ts",
